@@ -1,10 +1,13 @@
 package com.arenchf.corony.service;
 
+import com.arenchf.corony.domain.Amt;
 import com.arenchf.corony.domain.Bundesland;
 import com.arenchf.corony.domain.Ort;
 import com.arenchf.corony.domain.Regelung;
 import com.arenchf.corony.repo.OrtRepo;
 import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
 
 @Service
 public class OrtService {
@@ -18,7 +21,7 @@ public class OrtService {
         this.ortRepo = ortRepo;
     }
 
-    public void addOrt(String name, Integer regelung_id, Integer bundesland_id, Integer einwohner, Integer flaeche){
+    public Ort addOrt(String name, Integer regelung_id, Integer bundesland_id, Integer einwohner, Integer flaeche){
        Regelung regelung = regelungService.getRegelung(regelung_id);
        Bundesland bundesland = bundeslandService.getBundesland(bundesland_id);
        Ort ort = new Ort();
@@ -28,12 +31,28 @@ public class OrtService {
        ort.setFlaeche(flaeche);
        ort.setName(name);
        ortRepo.save(ort);
+       return ort;
    }
 
-   public Ort getOrt(Integer ort_id){
+    public Ort getOrt(Integer ort_id){
         return ortRepo.findOrtIntId(ort_id);
    }
 
+    public void updateOrt(Integer id, Integer einwohner, Integer flaeche, String name, Integer bundesland_id,Integer regelung_id){
+        Bundesland bundesland = null;
+        Regelung regelung = null;
+        if(bundesland_id != null){
+            bundesland = bundeslandService.getBundesland(bundesland_id);
+        }
+        if(regelung_id != null){
+            regelung = regelungService.getRegelung(regelung_id);
+        }
+        ortRepo.updateOrt(id,regelung,bundesland,name,einwohner,flaeche);
+    }
+
+    public void deleteOrt(Integer id){
+        ortRepo.deleteOrt(id);
+    }
 
 
 }

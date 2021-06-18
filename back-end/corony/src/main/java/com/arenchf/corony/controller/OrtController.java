@@ -5,7 +5,8 @@ import com.arenchf.corony.service.OrtService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/ort/")
+@RequestMapping("/ort")
+@CrossOrigin(origins = "*")
 public class OrtController {
 
     private final OrtService ortService;
@@ -23,6 +24,18 @@ public class OrtController {
     @GetMapping("/get/{id}")
     public Ort getOrt(@PathVariable("id") Integer id){
         return ortService.getOrt(id);
+    }
+
+
+    @PatchMapping("/update/{id}")
+    public void updateOrt(@PathVariable("id") Integer id, @RequestParam(required = false) Integer flaeche, @RequestParam(required = false) Integer einwohner, @RequestParam(required = false) String name, @RequestParam(required = false) Integer bundesland_id,@RequestParam(required = false) Integer regelung_id ){
+        System.out.println("RECEIVED");
+        ortService.updateOrt(id,einwohner,flaeche,name,bundesland_id,regelung_id);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteOrt(@PathVariable("id") Integer id){
+        ortService.deleteOrt(id);
     }
 
 }

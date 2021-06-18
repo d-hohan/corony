@@ -6,8 +6,10 @@ import com.arenchf.corony.domain.Test;
 import com.arenchf.corony.repo.TestRepo;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TestService {
@@ -22,7 +24,7 @@ public class TestService {
     }
 
 
-    public void addTest(Integer labor_id,Long testdatum, Integer person_id,Boolean resultat,String type){
+    public Test addTest(Integer labor_id,Long testdatum, Integer person_id,Boolean resultat,String type){
         Labor labor = laborService.getLabor(labor_id);
         Person person = personService.getPerson(person_id);
         Test test = new Test();
@@ -32,6 +34,12 @@ public class TestService {
         test.setTestDatum(new Timestamp(testdatum));
         test.setType(type);
         testRepo.save(test);
+        return test;
+    }
+    public Float getAllPositiveTestsWithFunction(String ort_name){
+        Float flo = testRepo.getPercentageOfPositiveTestVonOrt(ort_name);
+        System.out.println(flo);
+        return flo;
     }
 
     public Test getTest(Integer test_id){
@@ -42,5 +50,24 @@ public class TestService {
         return testRepo.allTrueTests();
     }
 
+    public void updateTest(Integer id, Boolean resultat, Long test_datum, String type, Integer labor_id, Integer person_id){
+        Person person = null;
+        Timestamp timestamp = null;
+        Labor labor = null;
+        if(person_id != null){
+            person = personService.getPerson(person_id);
+        }
+        if(labor_id != null){
+            labor = laborService.getLabor(labor_id);
+        }
+        if(test_datum != null){
+            timestamp = new Timestamp(test_datum);
+        }
+        testRepo.updateTest(id,type,resultat,timestamp,labor,person);
+    }
+
+    public void deleteTest(Integer id){
+        testRepo.deleteTest(id);
+    }
 
 }

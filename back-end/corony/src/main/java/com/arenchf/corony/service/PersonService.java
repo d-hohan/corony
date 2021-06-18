@@ -20,7 +20,7 @@ public class PersonService {
         this.personRepo = personRepo;
     }
 
-    public void addPerson(Integer haushalt_id, Integer regelung_id, String nachname, String vorname, Long geburtsdatum, Integer geburtsjahr, Long mobilnummer){
+    public Person addPerson(Integer haushalt_id, Integer regelung_id, String nachname, String vorname, Long geburtsdatum, Integer geburtsjahr, Long mobilnummer){
         Haushalt haushalt = haushaltService.getHaushalt(haushalt_id);
         Regelung regelung = regelungService.getRegelung(regelung_id);
         Person person = new Person();
@@ -35,6 +35,7 @@ public class PersonService {
         person.setVorname(vorname);
         person.setGeburtsjahr(geburtsjahr);
         personRepo.save(person);
+        return person;
 
     }
 
@@ -42,5 +43,25 @@ public class PersonService {
         return personRepo.findPersonIntId(person_id);
     }
 
+    public void updatePerson(Integer id, Long geburtsdatum, Integer geburtsjahr, Long mobilnummer, String nachname, String vorname, Integer haushalt_id, Integer regelung_id){
+        Haushalt haushalt = null;
+        Regelung regelung = null;
+        Timestamp timestamp = null;
+        if(haushalt_id != null){
+            haushalt = haushaltService.getHaushalt(haushalt_id);
+        }
+        if(regelung_id != null){
+            regelung = regelungService.getRegelung(regelung_id);
+        }
+
+        if(geburtsdatum != null){
+            timestamp = new Timestamp(geburtsdatum);
+        }
+        personRepo.updatePerson(id,geburtsjahr,timestamp,mobilnummer,vorname,nachname,haushalt,regelung);
+    }
+
+    public void deletePerson(Integer id){
+        personRepo.deletePerson(id);
+    }
 
 }

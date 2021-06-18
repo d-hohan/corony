@@ -19,11 +19,11 @@ public class Test {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.DETACH)
     //@NotNull
     private Labor labor;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.DETACH)
     //@NotNull
     private Person person;
 

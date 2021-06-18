@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/labor/")
+@CrossOrigin(origins = "*")
 public class LaborController {
     private final LaborService laborService;
 
@@ -26,5 +27,15 @@ public class LaborController {
         return laborService.getLabor(id);
     }
 
+    @PatchMapping("/update/{id}")
+    public void updateLabor(@PathVariable("id") Integer id, @RequestParam(required = false) Long anzahlTest,@RequestParam(required = false) Integer ort_id ){
+        System.out.println("RECEIVED");
+        laborService.updateLabor(id,anzahlTest,ort_id);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteLabor(@PathVariable("id") Integer id){
+        laborService.deleteLabor(id);
+    }
 
 }

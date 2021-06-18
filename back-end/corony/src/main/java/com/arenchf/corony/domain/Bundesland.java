@@ -26,5 +26,4 @@ public class Bundesland {
     private Integer einwohner;
 
     private Integer flaeche;
-
 }

@@ -20,7 +20,7 @@ public class Regelung {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.DETACH)
     private Amt amt;
 
     @NotNull

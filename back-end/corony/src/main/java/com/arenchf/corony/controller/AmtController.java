@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/amt/")
+@CrossOrigin(origins = "*")
 public class AmtController {
     private final AmtService amtService;
 
@@ -18,9 +19,20 @@ public class AmtController {
         amtService.addAmt(name,beschreibung);
         return true;
     }
-    @RequestMapping("/getbyid/{id}")
+    @GetMapping("/getbyid/{id}")
     public Amt getAmtById(@PathVariable("id") Integer id){
         return amtService.getAmt(id);
+    }
+
+    @PatchMapping("/update/{id}")
+    public void updateAmt(@PathVariable("id") Integer id, @RequestParam(required = false) String name,  @RequestParam(required = false) String beschreibung){
+        System.out.println("RECEIVED");
+        amtService.updateAmt(id,name,beschreibung);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteAmt(@PathVariable("id") Integer id){
+        amtService.deleteAmt(id);
     }
 
 }

@@ -22,12 +22,11 @@ public class Haushalt {
     @NotNull
     private Ort ort;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.DETACH)
     @NotNull
     private Amt amt;
 
     @NotNull
     private String strasse;
     private Long festnetznummer;
-
 }
