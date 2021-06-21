@@ -48,5 +48,9 @@ public interface TestRepo extends JpaRepository<Test,Integer> {
     @Modifying
     @Query("DELETE FROM Test t WHERE t.id = :id")
     void deleteTest(@Param("id") Integer id);
+    
+    //  Denis Experimental
+    @Query("SELECT * FROM inzedenz_in_intervall_in_b_land(:von, :bis, :wo)")
+    List<Test> inzedenzInIntervallInBLand(long von, long bis, String wo)
 
 }
